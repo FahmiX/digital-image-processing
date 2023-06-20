@@ -5,8 +5,8 @@ import streamlit as st
 def main():
     # Title
     st.set_page_config(
-        page_title="About",
-        page_icon="🧊",
+        page_title="ABOUT",
+        page_icon="1️⃣",
         layout="centered",
         initial_sidebar_state="auto",
     )
