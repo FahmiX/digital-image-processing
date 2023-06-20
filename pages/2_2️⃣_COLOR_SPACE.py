@@ -27,7 +27,7 @@ def set_page():
 
 # Tab
 def tab(img):
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs(["RGB", "RGBA", "BGR", "XYZ", "YCrCb", "HSV", "Lab", "Luv", "HLS", "YUV"])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11 = st.tabs(["RGB", "RGBA", "BGR", "XYZ", "YCrCb", "HSV", "Lab", "Luv", "HLS", "YUV", "GRAY"])
     
     with tab1:
         # Title
@@ -123,6 +123,16 @@ def tab(img):
 
         # Convert Image to YUV
         result = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+
+        # Show Image
+        func.show_image_st(result, None, None)
+
+    with tab11:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>GRAY</h1>", unsafe_allow_html=True)
+
+        # Convert Image to GRAY
+        result = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
         # Show Image
         func.show_image_st(result, None, None)
