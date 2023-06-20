@@ -1,0 +1,9 @@
+streamlit
+matplotlib
+Pillow
+opencv-python-headless
+numpy
+pandas
+streamlit-option-menu
+tensorflow
+moviepy
