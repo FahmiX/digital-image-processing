@@ -7,6 +7,10 @@ import FUNCTIONS as func
 
 # MAIN PAGE
 def main():
+    # Set Page Config
+    set_page()
+
+    # Content
     img = st.file_uploader("Choose an image...", type="jpg")
     if img is not None:
         img = np.frombuffer(img.read(), np.uint8)
