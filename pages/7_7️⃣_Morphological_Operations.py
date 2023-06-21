@@ -40,7 +40,7 @@ def set_page():
 
 # tab
 def tab(img):
-    tab1, tab2, tab3, tab4 = st.tabs(["Erosion", "Dilation", "Opening", "Closing"])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Erosion", "Dilation", "Opening", "Closing", "Gradient", "Boundary Extraction", "Skeletonization"])
 
     with tab1:
         # Title
@@ -69,6 +69,27 @@ def tab(img):
 
         # Closing Image
         closing(img)
+
+    with tab5:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>Gradient</h1>", unsafe_allow_html=True)
+
+        # Gradient Image
+        gradient(img)
+
+    with tab6:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>Boundary Extraction</h1>", unsafe_allow_html=True)
+
+        # Boundary Extraction Image
+        boundary_extraction(img)
+
+    with tab7:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>Skeletonization</h1>", unsafe_allow_html=True)
+
+        # Skeletonization Image
+        skeletonization(img)
 
 # Erosion
 def erosion(img):
@@ -114,6 +135,51 @@ def closing(img):
     # Show Image
     func.show_image_st(closing, 'Closing Image', None)
 
+# Gradient
+def gradient(img):
+    # Kernel
+    kernel = st.slider("Kernel", 1, 10, 3, 1, key="gradient")
+
+    # Gradient
+    gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, np.ones((kernel, kernel), np.uint8))
+
+    # Show Image
+    func.show_image_st(gradient, 'Gradient Image', None)
+
+# Boundary Extraction
+def boundary_extraction(img):
+    # Kernel
+    kernel = st.slider("Kernel", 1, 10, 3, 1, key="boundary_extraction")
+
+    # Erosion
+    erosion = cv2.erode(img, np.ones((kernel, kernel), np.uint8), iterations=1)
+
+    # Boundary Extraction
+    boundary_extraction = img - erosion
+
+    # Show Image
+    func.show_image_st(boundary_extraction, 'Boundary Extraction Image', None)
+
+# Skeletonization
+def skeletonization(img):
+    # Kernel
+    element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    skel = np.zeros(img.shape, np.uint8)
+
+    # Apply morphological transformation
+    while True:
+        open = cv2.morphologyEx(img, cv2.MORPH_OPEN, element)
+        temp = cv2.subtract(img, open)
+        eroded = cv2.erode(img, element)
+        skel = cv2.bitwise_or(skel, temp)
+        img = eroded.copy()
+
+        if (cv2.countNonZero(img) == 0):
+            break
+
+    # Show Image
+    func.show_image_st(skel, 'Skeletonization Image', None)
+
 # Setting
 def binary_setting(img):
     # Button
@@ -151,9 +217,11 @@ def binary_setting(img):
     else:
         st.write("Please apply threshold first")
 
+# Apply Binary
 def applyBinary():
     st.session_state.converted = True
 
+# Reset Binary
 def resetBinary():
     st.session_state.converted = False
 
