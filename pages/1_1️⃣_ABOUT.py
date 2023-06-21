@@ -7,7 +7,8 @@ def main():
     set_page()
 
     # Content
-
+    # Coming Soon
+    st.markdown("<h1 style='text-align: center; color: white;'>Coming Soon</h1>", unsafe_allow_html=True)
 
 # FUNCTIONS
 # Set Page

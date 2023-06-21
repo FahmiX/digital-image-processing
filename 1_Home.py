@@ -3,7 +3,12 @@ import streamlit as st
 
 # MAIN PAGE
 def main():
+    # Set Page Config
     set_page()
+
+    # Content
+    # Welcome
+    st.markdown("<h1 style='text-align: center; color: white;'>Welcome</h1>", unsafe_allow_html=True)
 
 # FUNCTIONS
 # Set Page Config
