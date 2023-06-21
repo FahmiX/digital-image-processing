@@ -7,3 +7,4 @@ pandas
 streamlit-option-menu
 tensorflow
 moviepy
+scikit-image

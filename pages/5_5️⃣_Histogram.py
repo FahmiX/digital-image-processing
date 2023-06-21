@@ -4,6 +4,8 @@ import numpy as np
 import cv2
 import FUNCTIONS as func
 import matplotlib.pyplot as plt
+from skimage import exposure
+from skimage.exposure import match_histograms
 
 # MAIN PAGE
 def main():
@@ -28,13 +30,13 @@ def main():
 def set_page():
     st.set_page_config(
         page_title="Histogram",
-        page_icon="1️⃣",
+        page_icon="5️⃣",
         layout="centered",
         initial_sidebar_state="auto",
     )
 
 def tab(img):
-    tab1, tab2, tab3, tab4 = st.tabs(["Histogram Original", "Histogram Equalization", "Histogram Matching", "Histogram Specification"])
+    tab1, tab2, tab3 = st.tabs(["Histogram Original", "Histogram Equalization", "Histogram Matching"])
 
     with tab1:
         # Title
@@ -49,6 +51,13 @@ def tab(img):
 
         # Histogram Equalization Image
         histogram_equalization(img)
+
+    with tab3:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>Histogram Matching</h1>", unsafe_allow_html=True)
+
+        # Histogram Matching Image
+        histogram_matching(img)
 
 def histogram(img):
     # Colors
@@ -116,6 +125,52 @@ def histogram_equalization(img):
             ax.plot(hist, color=col)
             ax.set_xlim([0,256])
         st.pyplot(fig)
+
+def histogram_matching(img):
+    img2 = st.file_uploader("Choose image to match...", type=["jpg", "png"])
+    if img2 is not None:
+        img2 = np.frombuffer(img2.read(), np.uint8)
+        img2 = cv2.imdecode(img2, cv2.IMREAD_COLOR)
+        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+
+        # Match Size
+        img2 = cv2.resize(img2, (img.shape[1], img.shape[0]))
+
+        # Match Histogram
+        matched = match_histograms(img, img2, channel_axis=-1)
+
+        # Show Image
+        with st.expander("Reference Image"):
+            func.show_image_st(img2, 'Reference Image', None)
+
+        with st.expander("Output Image"):
+            func.show_image_st(matched, 'Output Image', None)
+
+        # Histogram Matching Image
+        with st.expander("Histogram Matching"):
+            # Colors
+            colors = ('r','g','b')
+
+            # Plot
+            fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+            for i, col in enumerate(colors):
+                histr = cv2.calcHist([matched], [i], None, [256], [0, 256])
+                ax[i].plot(histr, color=col)
+                ax[i].set_xlim([0, 256])
+                ax[i].set_title(col.upper())
+                ax[i].set_xlabel('Bins')
+                ax[i].set_ylabel('Number of Pixels')
+            st.pyplot(fig)
+
+            fig, ax = plt.subplots()
+            ax.set_title("RGB")
+            ax.set_xlabel("Bins")
+            ax.set_ylabel("Number of Pixels")
+            for i, col in enumerate(colors):
+                hist = cv2.calcHist([matched], [i], None, [256], [0,256])
+                ax.plot(hist, color=col)
+                ax.set_xlim([0,256])
+            st.pyplot(fig)
 
 # MAIN CONFIG
 if __name__ == "__main__":

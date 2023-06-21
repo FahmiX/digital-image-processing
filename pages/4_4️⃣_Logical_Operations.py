@@ -28,7 +28,7 @@ def main():
 def set_page():
     st.set_page_config(
         page_title="Logical Operations",
-        page_icon="1️⃣",
+        page_icon="4️⃣",
         layout="centered",
         initial_sidebar_state="auto",
     )

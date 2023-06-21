@@ -27,7 +27,7 @@ def main():
 def set_page():
     st.set_page_config(
         page_title="ARITHMETIC OPERATIONS",
-        page_icon="🔢",
+        page_icon="3️⃣",
         layout="centered",
         initial_sidebar_state="auto",
     )
