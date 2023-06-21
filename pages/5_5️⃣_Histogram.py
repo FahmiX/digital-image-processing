@@ -36,7 +36,7 @@ def set_page():
     )
 
 def tab(img):
-    tab1, tab2, tab3 = st.tabs(["Histogram Original", "Histogram Equalization", "Histogram Matching"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Histogram Original", "Histogram Equalization", "Histogram Matching", "Adaptive Histogram Equalization"])
 
     with tab1:
         # Title
@@ -58,6 +58,13 @@ def tab(img):
 
         # Histogram Matching Image
         histogram_matching(img)
+
+    with tab4:
+        # Title
+        st.markdown("<h1 style='text-align: center; color: white;'>Adaptive Histogram Equalization</h1>", unsafe_allow_html=True)
+
+        # Adaptive Histogram Equalization Image
+        adaptive_histogram_equalization(img)
 
 def histogram(img):
     # Colors
@@ -171,6 +178,49 @@ def histogram_matching(img):
                 ax.plot(hist, color=col)
                 ax.set_xlim([0,256])
             st.pyplot(fig)
+
+def adaptive_histogram_equalization(img):
+    # Colors
+    colors = ('r','g','b')
+
+    # Convert Image from RGB to YCrCb
+    img_yuv = cv2.cvtColor(img, cv2.COLOR_RGB2YCrCb)
+
+    # Make CLAHE Object
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+
+    # Equalize the histogram of the Y channel
+    img_yuv[:,:,0] = clahe.apply(img_yuv[:,:,0])
+
+    # Convert the YUV image back to RGB format
+    img_output = cv2.cvtColor(img_yuv, cv2.COLOR_YCrCb2RGB)
+
+    # Show Image
+    with st.expander("Output Image"):
+        func.show_image_st(img_output, 'Output Image', None)
+
+    # Histogram Equalization Image
+    with st.expander("Histogram Equalization"):
+        # Plot
+        fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+        for i, col in enumerate(colors):
+            histr = cv2.calcHist([img_output], [i], None, [256], [0, 256])
+            ax[i].plot(histr, color=col)
+            ax[i].set_xlim([0, 256])
+            ax[i].set_title(col.upper())
+            ax[i].set_xlabel('Bins')
+            ax[i].set_ylabel('Number of Pixels')
+        st.pyplot(fig)
+
+        fig, ax = plt.subplots()
+        ax.set_title("RGB")
+        ax.set_xlabel("Bins")
+        ax.set_ylabel("Number of Pixels")
+        for i, col in enumerate(colors):
+            hist = cv2.calcHist([img_output], [i], None, [256], [0,256])
+            ax.plot(hist, color=col)
+            ax.set_xlim([0,256])
+        st.pyplot(fig)
 
 # MAIN CONFIG
 if __name__ == "__main__":
