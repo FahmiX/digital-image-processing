@@ -10,7 +10,7 @@ def main():
     set_page()
 
     # Content
-    img = st.file_uploader("Choose original image...", type="jpg")
+    img = st.file_uploader("Choose original image...", type=["jpg","png"])
     if img is not None:
         img = np.frombuffer(img.read(), np.uint8)
         img = cv2.imdecode(img, cv2.IMREAD_COLOR)

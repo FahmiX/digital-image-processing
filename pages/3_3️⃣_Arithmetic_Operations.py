@@ -10,7 +10,7 @@ def main():
     set_page()
 
     # Content
-    img = st.file_uploader("Choose original image...", type="jpg")
+    img = st.file_uploader("Choose original image...", type=["jpg","png"])
     if img is not None:
         img = np.frombuffer(img.read(), np.uint8)
         img = cv2.imdecode(img, cv2.IMREAD_COLOR)
@@ -102,7 +102,7 @@ def addition(img):
     # If Addition Between Image and Image
     with tab2:
         # Image
-        img2 = st.file_uploader("Choose adder image...", type="jpg")
+        img2 = st.file_uploader("Choose adder image...", type=["jpg","png"])
         if img2 is not None:
             img2 = np.frombuffer(img2.read(), np.uint8)
             img2 = cv2.imdecode(img2, cv2.IMREAD_COLOR)
@@ -148,7 +148,7 @@ def subtraction(img):
     # If Subtraction Between Image and Image
     with tab2:
         # Image
-        img2 = st.file_uploader("Choose subtractor image...", type="jpg")
+        img2 = st.file_uploader("Choose subtractor image...", type=["jpg","png"])
         if img2 is not None:
             img2 = np.frombuffer(img2.read(), np.uint8)
             img2 = cv2.imdecode(img2, cv2.IMREAD_COLOR)
@@ -164,7 +164,7 @@ def subtraction(img):
             func.show_image_st(result, None, None)
 
 def max(img):
-    img2 = st.file_uploader("Choose max image...", type="jpg")
+    img2 = st.file_uploader("Choose max image...", type=["jpg","png"])
     if img2 is not None:
         img2 = np.frombuffer(img2.read(), np.uint8)
         img2 = cv2.imdecode(img2, cv2.IMREAD_COLOR)
@@ -180,7 +180,7 @@ def max(img):
         func.show_image_st(result, None, None)
 
 def min(img):
-    img2 = st.file_uploader("Choose min image...", type="jpg")
+    img2 = st.file_uploader("Choose min image...", type=["jpg","png"])
     if img2 is not None:
         img2 = np.frombuffer(img2.read(), np.uint8)
         img2 = cv2.imdecode(img2, cv2.IMREAD_COLOR)
