@@ -11,11 +11,15 @@ def main():
     set_page()
 
     # Content
-    img = st.file_uploader("Choose an image...", type=["jpg","png"])
+    img = st.file_uploader("Choose original image...", type=["jpg","png"])
     if img is not None:
         img = np.frombuffer(img.read(), np.uint8)
         img = cv2.imdecode(img, cv2.IMREAD_COLOR)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    
+        # Original Image
+        with st.expander("Original Image"):
+            func.show_image_st(img, 'Original Image', None)
 
         tab(img)
 
@@ -31,7 +35,7 @@ def set_page():
 
 # Tab
 def tab(img):
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11 = st.tabs(["RGB", "RGBA", "BGR", "XYZ", "YCrCb", "HSV", "Lab", "Luv", "HLS", "YUV", "GRAY"])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11 = st.tabs(["RGB", "RGBA", "BGR", "XYZ", "YCrCb", "HSV", "Lab", "Luv", "HLS", "YUV", "GRAYSCALE"])
     
     with tab1:
         # Title
