@@ -46,3 +46,26 @@ def download_image(img, title):
         file_name="{}.{}.png".format(title, timestamp),
         mime="image/png",
     )
+
+def colors(color):
+    match color:
+        case "red":
+            return (255, 0, 0)
+        case "green":
+            return (0, 255, 0)
+        case "blue":
+            return (0, 0, 255)
+        case "yellow":
+            return (255, 255, 0)
+        case "magenta":
+            return (255, 0, 255)
+        case "cyan":
+            return (0, 255, 255)
+        case "white":
+            return (255, 255, 255)
+        case "black":
+            return (0, 0, 0)
+        case "gray":
+            return (128, 128, 128)
+        case _:
+            return (0, 0, 0)
