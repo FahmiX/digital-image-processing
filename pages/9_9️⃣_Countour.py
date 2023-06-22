@@ -108,7 +108,13 @@ def convex_hull(img):
     func.show_image_st(img_contour, 'Convex Hull', None)
 
 def choose_color(key=None):
-    color = st.selectbox("Choose color", ("red", "green", "blue", "yellow", "magenta", "cyan", "white", "black", "gray"), key=key)
+    color = st.selectbox("Choose color", ("red", "green", "blue", "yellow", "magenta", "cyan", "white", "black", "gray", "custom"), key=(key + "color"))
+
+    if color == "custom":
+        color = st.color_picker("Choose color", "#ff0000", key=(key + "custom"))
+        color = func.hex_to_rgb(color)
+        return color
+    
     return func.colors(color)
 
 # MAIN CONFIG

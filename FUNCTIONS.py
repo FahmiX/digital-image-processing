@@ -69,3 +69,8 @@ def colors(color):
             return (128, 128, 128)
         case _:
             return (0, 0, 0)
+        
+def hex_to_rgb(hex):
+    hex = hex.lstrip("#")
+    hlen = len(hex)
+    return tuple(int(hex[i:i+hlen//3], 16) for i in range(0, hlen, hlen//3))
